@@ -37,8 +37,8 @@ String error = (String)session.getAttribute("ERROR_"+session.getId());
                         <tr>
                             <td width="70"></td>
                             <td width="151" height="23">
-                                <input type="text" size="20" maxlength="15" name="password" value="password" class="login" onfocus="javascript:this.value=''"/>
-                            </td>
+                                 <input type="text" size="20" maxlength="15" name="password" value="password" class="login" onfocus="javascript:this.value='';this.type='password'"/>
+                           </td>
                         </tr>
                      </table>
                       <table align="center" valign="center" border="0" >

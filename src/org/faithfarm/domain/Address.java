@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 public class Address implements Serializable {
 	
-	private Integer addressId;
+	private Long addressId;
+	private Long donorId;
 	private String line1;
 	private String line2;
 	private String city;
@@ -23,11 +24,19 @@ public class Address implements Serializable {
 	private String createdBy;
 	private String lastUpdatedBy;
 	
-	public Integer getAddressId() {
+	
+	public Long getAddressId() {
 		return addressId;
 	}
-	public void setAddressId(Integer addressId) {
+	public void setAddressId(Long addressId) {
 		this.addressId = addressId;
+	}
+	
+	public Long getDonorId() {
+		return donorId;
+	}
+	public void setDonorId(Long donorId) {
+		this.donorId = donorId;
 	}
 	public String getLine1() {
 		return line1;

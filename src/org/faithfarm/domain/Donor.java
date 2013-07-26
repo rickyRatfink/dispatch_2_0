@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Donor implements Serializable {
 	
-	private Integer donorId;
+	private Long donorId;
 	private String firstname;
 	private String lastname;
 	private String suffix;
@@ -15,10 +15,11 @@ public class Donor implements Serializable {
 	private String createdBy;
 	private String udpatedBy;
 	
-	public Integer getDonorId() {
+	
+	public Long getDonorId() {
 		return donorId;
 	}
-	public void setDonorId(Integer donorId) {
+	public void setDonorId(Long donorId) {
 		this.donorId = donorId;
 	}
 	public String getFirstname() {

@@ -10,6 +10,9 @@ public class SystemUser implements Serializable {
 	private String creationDate;
 	private String lastUpdatedDate;
 	private String userRole;
+	private String farmBase;
+	private Integer loginCount;
+	
 	
 	public Integer getUserId() {
 		return userId;
@@ -46,6 +49,18 @@ public class SystemUser implements Serializable {
 	}
 	public void setUserRole(String userRole) {
 		this.userRole = userRole;
+	}
+	public String getFarmBase() {
+		return farmBase;
+	}
+	public void setFarmBase(String farmBase) {
+		this.farmBase = farmBase;
+	}
+	public Integer getLoginCount() {
+		return loginCount;
+	}
+	public void setLoginCount(Integer loginCount) {
+		this.loginCount = loginCount;
 	}
 	
 	

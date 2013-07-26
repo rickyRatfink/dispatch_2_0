@@ -28,7 +28,7 @@
                         <tr>
                             <td width="80"></td>
                             <td width="142" height="23">
-                                <input type="text" size="20" maxlength="15" name="password" value="password" class="login" onfocus="javascript:this.value=''"/>
+                                <input type="text" size="20" maxlength="15" name="password" value="password" class="login" onfocus="javascript:this.value='';this.type='password'"/>
                             </td>
                         </tr>
                      </table>
