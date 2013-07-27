@@ -22,6 +22,9 @@ public class DispatchServlet extends HttpServlet {
 	private static Address address = new Address();
 	private static Donation donation = new Donation();
 
+	private static String dispatchDate="";
+	private static String limit="";
+	
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		HttpSession session = req.getSession(true);
@@ -38,14 +41,72 @@ public class DispatchServlet extends HttpServlet {
 			this.setDonor(new Donor());
 			this.setAddress(new Address());
 			
+			this.setFields(req);
+			
 			req.getRequestDispatcher("/newticket.jsp").forward(req, resp);
 		}
 		else if ("Search".equals(action)) {
 			this.setDonation(new Donation());
 			this.setDonor(new Donor());
 			this.setAddress(new Address());
+			this.setFields(req);
 			session.setAttribute("RESULTS_"+session.getId(),null);
-			req.getRequestDispatcher("/newticket.jsp").forward(req, resp);
+			req.getRequestDispatcher("/search.jsp").forward(req, resp);
+		}
+		else if ("Level".equals(action)) {
+			this.setDispatchDate("");
+			this.setLimit("");
+			req.getRequestDispatcher("/ticket_level.jsp").forward(req, resp);
+		}
+		else if ("SaveLevel".equals(action)) {
+			boolean success=true;
+			
+			String dispatchDate=valid8r.cleanData(req.getParameter("dispatchDate"));
+			String sLimit=valid8r.cleanData(req.getParameter("level"));
+			int limit=0;
+			
+			String fieldErr = valid8r.validateRequired("Pickup Date", dispatchDate);
+			req.setAttribute("field1Err", fieldErr);
+			if (fieldErr.length() > 0)
+				success = false;
+			else
+				this.setDispatchDate(dispatchDate);
+			
+			fieldErr = valid8r.validateRequired("Daily Limit", sLimit);
+			req.setAttribute("field2Err", fieldErr);
+			if (fieldErr.length() > 0)
+				success = false;
+			else {
+				try {
+					this.setLimit(sLimit);
+					limit=Integer.parseInt(sLimit);
+				} catch (Exception e) {
+					req.setAttribute("field2Err", "Daily Limit is invalid");
+				}
+			}
+			
+			int retCode =0;
+			
+			if (!success) 
+				req.getRequestDispatcher("/ticket_level.jsp").forward(req, resp);
+			else {
+				retCode = dao.updateDailyLimit(dispatchDate, limit, user.getFarmBase(), user.getUsername(), session);
+				//insert new limit if limit doesn't exist
+				if (retCode==0) {
+					
+					retCode=dao.insertDailyLimit(dispatchDate, limit, user.getFarmBase(), user.getUsername(), session);
+					if (retCode!=1)
+						req.getRequestDispatcher("/error.jsp").forward(req, resp);
+					else {
+						req.setAttribute("MESSAGE", "daily limit successfully set.");
+						req.getRequestDispatcher("/newticket.jsp").forward(req, resp);
+					}
+				}
+				else {
+					req.setAttribute("MESSAGE", "daily limit successfully updated.");
+					req.getRequestDispatcher("/newticket.jsp").forward(req, resp);
+				}
+			}
 		}
 		else if ("SearchTickets".equals(action)) {
 			String lastname=valid8r.cleanData(req.getParameter("lastname"));
@@ -402,6 +463,22 @@ public class DispatchServlet extends HttpServlet {
 
 	public static void setDonation(Donation donation) {
 		DispatchServlet.donation = donation;
+	}
+
+	public static String getDispatchDate() {
+		return dispatchDate;
+	}
+
+	public static void setDispatchDate(String dispatchDate) {
+		DispatchServlet.dispatchDate = dispatchDate;
+	}
+
+	public static String getLimit() {
+		return limit;
+	}
+
+	public static void setLimit(String limit) {
+		DispatchServlet.limit = limit;
 	}
 
 }

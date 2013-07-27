@@ -25,7 +25,7 @@ h3 {
 	color: #FFFFFF;
 }
 h5 {
-	font: bold 10px Arial;
+	font: bold 12px Arial;
 	color: #37943e;
 	text-align: left;
 	padding-left: 20px;
@@ -43,7 +43,7 @@ h5 {
 .textboxErr {
 	border:1px solid #456879;
 	border-radius:3px;
-	height: 14px;
+	height: 16px;
 	background-color:#ffd056;
 	font: 10px Arial;
 	color: #444446;

@@ -105,16 +105,14 @@
                                             <td colspan="2" class="searchFieldResult"><%=d.getStatus() %></td>
                                             <td class="searchFieldResult"><%=d.getCreatedBy() %></td>
                                         </tr>
+                                        <% } 
+										if (results.size()==0) {
+										%>
+                                        <tr>
+                                            <td colspan="12" class="searchFieldResult">No Results</td>
+                                        </tr>
                                         <% } %>
-                                        <!--<tr>
-                                            <td colspan="2" class="searchFieldResult"><img src="images/cancelled.png"/>539098</td>
-                                            <td colspan="2" class="searchFieldResult">sfddsf</td>
-                                            <td colspan="2" class="searchFieldResult">06/12/1973</td>
-                                            <td colspan="2" class="searchFieldResult">ZIPCO32347DE</td>
-                                            <td colspan="2" class="searchFieldResult">No</td>
-                                            <td colspan="2" class="searchFieldResult">Cancelled</td>
-                                            <td class="searchFieldResult">Agent1</td>
-                                        </tr>-->
+                                       
                                        
                                     </table>
                                  </td>

@@ -22,6 +22,7 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
 <script type="text/javascript" src="scripts/tcal.js"></script>
+
 </head>
   
 <body topmargin="0" leftmargin="0" bgcolor="#383838">
@@ -41,10 +42,10 @@
 		            	<li><a href="index.html">Home</a></li>
 		                <li><a href="<%=request.getContextPath()%>/ticket?action=New">New Ticket</a></li>
 						<li><a href="<%=request.getContextPath()%>/ticket?action=Search">View/Edit Ticket</a></li>
-		                <li><a href="navigation.html">Ticket Levels</a></li>
+		                <li><a href="<%=request.getContextPath()%>/ticket?action=Level">Ticket Levels</a></li>
                         <li><a href="navigation.html">User Accounts</a></li>
 						<li><a href="<%=request.getContextPath()%>/login?action=logout">Logout</a></li>
-					</ul>
+					</ul> 
                     <% 
 					}
 					if (user.getUserRole().equals("AGENT")) {

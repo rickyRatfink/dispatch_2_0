@@ -559,6 +559,72 @@ public int updatePassword (Integer id, String password, String question, String 
 		return retCode;
 
 	}
+	
+	public int insertDailyLimit(String dispatchDate, int limit, String farm, String user, HttpSession session) {
+
+		int retCode = 0;
+
+		try {
+
+			Connection Conn=this.getConnection();
+				
+			// Do something with the Connection
+			Statement Stmt = Conn.createStatement();
+
+			StringBuffer query = new StringBuffer();
+			query.append("INSERT INTO FFARM_DEV.DAILY_LIMIT (");
+			query.append(" DISPATCH_DATE, DAILY_LIMIT, FARM_BASE, UPDATED_BY, UPDATED_DATE) VALUES (");
+			query.append("'" + dispatchDate + "',");
+			query.append(limit + ",");
+			query.append("'" + farm + "',");
+			query.append("'" + valid8r.getEpoch() + "',");
+			query.append("'" + user + "' );");
+			retCode = Stmt.executeUpdate(query.toString());
+
+			// Clean up after ourselves
+			Stmt.close();
+			Conn.close();
+		} catch (SQLException E) {
+			session.setAttribute("SYSTEM_ERROR", E.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			session.setAttribute("SYSTEM_ERROR", e.getMessage());
+		}
+
+		return retCode;
+
+	}
+
+	public int updateDailyLimit(String dispatchDate, int limit, String farm, String user, HttpSession session) {
+
+		int retCode = 0;
+
+		try {
+
+			Connection Conn=this.getConnection();
+				
+			// Do something with the Connection
+			Statement Stmt = Conn.createStatement();
+
+			StringBuffer query = new StringBuffer();
+			query.append("UPDATE FFARM_DEV.DAILY_LIMIT ");
+			query.append(" SET DAILY_LIMIT="+limit+", UPDATED_BY='"+user+"', UPDATED_DATE='"+valid8r.getEpoch()+"' ");
+			query.append(" WHERE DISPATCH_DATE='"+dispatchDate+"' AND FARM_BASE='"+farm+"'");
+			retCode = Stmt.executeUpdate(query.toString());
+
+			// Clean up after ourselves
+			Stmt.close();
+			Conn.close();
+		} catch (SQLException E) {
+			session.setAttribute("SYSTEM_ERROR", E.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+			session.setAttribute("SYSTEM_ERROR", e.getMessage());
+		}
+
+		return retCode;
+
+	}
 
 
 }

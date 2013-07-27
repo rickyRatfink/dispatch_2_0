@@ -218,21 +218,33 @@ public class SecureLogin extends HttpServlet {
 	        tvsize.add("48-inch");
 	        
 	        
-	        session.setAttribute("dllSuffix",suffix);
-	        session.setAttribute("dllSecurityQuestion",securityQuestion);
-	        session.setAttribute("dllLocation",location);
-	        session.setAttribute("dllStatus",status);
-	        session.setAttribute("dllLocation",location);
-	        session.setAttribute("dllStructure",structureType);
-	        session.setAttribute("dllStreetSuffix",streetSuffix);
-	        session.setAttribute("dllState",states);
-	        session.setAttribute("dllCallReq",callReq);
-	        session.setAttribute("dllGate",gate);
+	        session.setAttribute("dllSuffix",convertToUpperCase(suffix));
+	        session.setAttribute("dllSecurityQuestion",convertToUpperCase(securityQuestion));
+	        session.setAttribute("dllLocation",convertToUpperCase(location));
+	        session.setAttribute("dllStatus",convertToUpperCase(status));
+	        session.setAttribute("dllLocation",convertToUpperCase(location));
+	        session.setAttribute("dllStructure",convertToUpperCase(structureType));
+	        session.setAttribute("dllStreetSuffix",convertToUpperCase(streetSuffix));
+	        session.setAttribute("dllState",convertToUpperCase(states));
+	        session.setAttribute("dllCallReq",convertToUpperCase(callReq));
+	        session.setAttribute("dllGate",convertToUpperCase(gate));
 	        session.setAttribute("dllFloor",floor);
-	        session.setAttribute("dllSource",source);
-	        session.setAttribute("dllQtyType",qtyType);
-	        session.setAttribute("dllMattress",mattress);
-	        session.setAttribute("dllTvSize",tvsize);
+	        session.setAttribute("dllSource",convertToUpperCase(source));
+	        session.setAttribute("dllQtyType",convertToUpperCase(qtyType));
+	        session.setAttribute("dllMattress",convertToUpperCase(mattress));
+	        session.setAttribute("dllTvSize",convertToUpperCase(tvsize));
 	        
+	   }
+	   
+	   private ArrayList convertToUpperCase(ArrayList list) {
+		   
+		   ArrayList newList = new ArrayList();
+		   
+		   for (int i=0;i<list.size();i++) {
+			   String value = (String)list.get(i);
+			   newList.add(value.toUpperCase());
+		   }
+		   
+		   return newList;
 	   }
 }

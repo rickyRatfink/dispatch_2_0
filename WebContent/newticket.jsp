@@ -213,14 +213,23 @@ $(document).ready(function() {
 	if (f13Err==null) f13Err="";
 	if (f14Err==null) f14Err="";	
 	
-	String message=(String)request.getAttribute("ERROR_"+session.getId());	
+	String message=(String)request.getAttribute("MESSAGE");	
 	if (message==null) message="";
 %>
+
+<script language="javascript" type="text/javascript">
+function ucase(obj) {
+  obj.value=obj.value.toUpperCase();
+}
+</script>
+
 <form method="POST" action="<%=request.getContextPath()%>/ticket"> 
 			<tr>
 				<td width="100%" align="center" valign="center" border="0" bgcolor="#FFFFFF">
                         <h1>Donor Information</h1>
-                        <h5><%=message %></h5>
+                        <% if (message.length()>0) { %>
+                        <h5><img src="images/success.png"/><%=message %></h5>
+                        <% } %>
                 		<table width="95%" cellpadding="0" cellspacing="0" border="0">
                         	<tr>
                             	<td class="fieldHeading" >Last Name<%=required%></td> 
@@ -230,8 +239,8 @@ $(document).ready(function() {
                             </tr>
                                                        
                             <tr>
-                            	<td class="searchField"><input type="text" size="30" maxlength="40" name="lastname" value="<%=DispatchServlet.getDonor().getLastname() %>" <% if (f1Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> /></td>
-                                <td class="searchField"><input type="text" size="20" maxlength="40" name="firstname"  value="<%=DispatchServlet.getDonor().getFirstname() %>" <% if (f2Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> /></td>
+                            	<td class="searchField"><input type="text" size="30" maxlength="40" name="lastname" value="<%=DispatchServlet.getDonor().getLastname() %>" <% if (f1Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> onkeyup="ucase(this)" /></td>
+                                <td class="searchField"><input type="text" size="20" maxlength="40" name="firstname"  value="<%=DispatchServlet.getDonor().getFirstname() %>" <% if (f2Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> onkeyup="ucase(this)" /></td>
                                 <td class="searchField">
                                 	<%
                                      ArrayList ddl = (ArrayList)session.getAttribute("dllSuffix");
@@ -276,7 +285,7 @@ $(document).ready(function() {
                             </tr>
                            
                             <tr>
-                            	<td><input type="text" size="80" maxlength="100" name="line1" value="<%=DispatchServlet.getAddress().getLine1() %>" <% if (f3Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> /></td>
+                            	<td><input type="text" size="80" maxlength="100" name="line1" value="<%=DispatchServlet.getAddress().getLine1() %>" <% if (f3Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> onkeyup="ucase(this)" /></td>
                             </tr>   
                             <tr>
                             	<td class="fieldError"><%=f3Err%></td>
@@ -289,7 +298,7 @@ $(document).ready(function() {
                             </tr>
                            
                             <tr>
-                            	<td><input type="text" size="80" name="line2" value="<%=DispatchServlet.getAddress().getLine2() %>" maxlength="100" class="textbox" /></td>
+                            	<td><input type="text" size="80" name="line2" value="<%=DispatchServlet.getAddress().getLine2() %>" maxlength="100" class="textbox" onkeyup="ucase(this)" /></td>
                             </tr>                            
                         </table>
                         
@@ -302,7 +311,7 @@ $(document).ready(function() {
                             </tr>
                            
                             <tr>
-                            	<td><input type="text" size="25" maxlength="25" name="city" value="<%=DispatchServlet.getAddress().getCity() %>" <% if (f4Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> /></td>
+                            	<td><input type="text" size="25" maxlength="25" name="city" value="<%=DispatchServlet.getAddress().getCity() %>" <% if (f4Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> onkeyup="ucase(this)" /></td>
                                 <td>
                                 	<%
                                      ddl = (ArrayList)session.getAttribute("dllState");
@@ -357,7 +366,7 @@ $(document).ready(function() {
                                 	<input id="phone2" type="text" size="3" maxlength="3" name="phone2" onkeyup="moveOnMax(this,'phone3')" onKeyPress="return isNumberKey(event)"  <% if (f10Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%>  <% if (DispatchServlet.getDonor().getContactPhone().length()==13 ) { %>value="<%=DispatchServlet.getDonor().getContactPhone().substring(5,8)%>"<%}%>/>-
                                 	<input id="phone3" type="text" size="4" maxlength="4" name="phone3" onKeyPress="return isNumberKey(event)" <% if (f10Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%>  <% if (DispatchServlet.getDonor().getContactPhone().length()==13 ) { %>value="<%=DispatchServlet.getDonor().getContactPhone().substring(9,13)%>"<%}%>/>
                                 </td>
-                                <td><input type="text" size="50" name="email" maxlength="50" value="<%=DispatchServlet.getDonor().getEmailAddress() %>" <% if (f11Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> /></td>
+                                <td><input type="text" size="50" name="email" maxlength="50" value="<%=DispatchServlet.getDonor().getEmailAddress() %>" <% if (f11Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> onkeyup="ucase(this)"/></td>
                                 <td></td>
                             </tr>
                             
@@ -382,8 +391,8 @@ $(document).ready(function() {
                                 <td width="55%"></td>
                              </tr>
                              <tr>
-                            	<td><input type="text" size="30" maxlength="30" name="majorIntersection" value="<%=DispatchServlet.getAddress().getMajorIntersection() %>" <% if (f7Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%>  /></td>
-                                <td><input type="text" size="30" maxlength="30" name="subdivision" value="<%=DispatchServlet.getAddress().getSubdivision() %>" class="textbox" " class="textbox" /></td>
+                            	<td><input type="text" size="30" maxlength="30" name="majorIntersection" value="<%=DispatchServlet.getAddress().getMajorIntersection() %>" <% if (f7Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%> onkeyup="ucase(this)" /></td>
+                                <td><input type="text" size="30" maxlength="30" name="subdivision" value="<%=DispatchServlet.getAddress().getSubdivision() %>" class="textbox" " class="textbox" onkeyup="ucase(this)" /></td>
                                 <td></td>
                              </tr>
                              <tr>
@@ -864,7 +873,7 @@ $(document).ready(function() {
                                <tr>
                             	<td colspan="7" class="itemName" >Special Notes
                                 	</br>
-                                	<textarea class="area" name="specialNotes" ><%=DispatchServlet.getDonation().getSpecialNotes() %></textarea>
+                                	<textarea class="area" name="specialNotes" onkeyup="ucase(this)"><%=DispatchServlet.getDonation().getSpecialNotes() %></textarea>
                                 </td>
                                </tr>
                             </table>
