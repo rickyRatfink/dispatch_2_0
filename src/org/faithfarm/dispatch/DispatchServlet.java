@@ -21,7 +21,8 @@ public class DispatchServlet extends HttpServlet {
 	private static Donor donor = new Donor();
 	private static Address address = new Address();
 	private static Donation donation = new Donation();
-
+	private static SystemUser systemUser = new SystemUser();
+	
 	private static String dispatchDate="";
 	private static String limit="";
 	
@@ -140,7 +141,7 @@ public class DispatchServlet extends HttpServlet {
 					req.getRequestDispatcher("/error.jsp").forward(req, resp);
 				else {
 					req.setAttribute("MESSAGE_"+session.getId(),"Password successfully changed");
-					req.getRequestDispatcher("/newticket.jsp").forward(req, resp);
+					req.getRequestDispatcher("/main.jsp").forward(req, resp);
 				}
 			} else
 				req.getRequestDispatcher("/setpassword.jsp").forward(req, resp);
@@ -162,6 +163,85 @@ public class DispatchServlet extends HttpServlet {
 			else
 				req.getRequestDispatcher("/newticket.jsp").forward(req, resp);
 		}
+		
+		else if ("Users".equals(action)) {
+			int retCode=dao.searchSystemUsers(user.getFarmBase(), session);
+			if (retCode!=1)
+				req.getRequestDispatcher("/error.jsp").forward(req, resp);
+			else {
+				req.getRequestDispatcher("/new_user.jsp").forward(req, resp);
+			}
+		}
+		else if ("DeleteUser".equals(action)) {
+			String id = req.getParameter("userId");
+			boolean retCode=dao.deleteSystemUser(Integer.parseInt(id), session);
+			if (!retCode)
+				req.getRequestDispatcher("/error.jsp").forward(req, resp);
+			else {
+				int rc=dao.searchSystemUsers(user.getFarmBase(), session);
+				if (rc!=1)
+					req.getRequestDispatcher("/error.jsp").forward(req, resp);
+				else {
+					req.setAttribute("MESSAGE", "User successfully deleted.");
+					req.getRequestDispatcher("/new_user.jsp").forward(req, resp);
+				}
+			}
+		}
+		else if ("NewUser".equals(action)) {
+			SystemUser u = new SystemUser();
+			u.setUsername("");
+			this.setSystemUser(u);	
+			
+			req.getRequestDispatcher("create_user.jsp").forward(req, resp);
+		}
+		else if ("SaveUser".equals(action)) {
+			boolean success=true;
+			
+			String username=valid8r.cleanData(req.getParameter("username"));
+			String role=valid8r.cleanData(req.getParameter("role"));
+			
+			String fieldErr = valid8r.validateRequired("Username", username);
+			req.setAttribute("field1Err", fieldErr);
+			if (fieldErr.length() > 0)
+				success = false;
+			else
+				this.getSystemUser().setUsername(username);
+			
+			fieldErr = valid8r.validateRequired("Role", role);
+			req.setAttribute("field2Err", fieldErr);
+			if (fieldErr.length() > 0)
+				success = false;
+			else
+				this.getSystemUser().setUserRole(role);;
+						
+			int retCode =0;
+			
+			if (!success) 
+				req.getRequestDispatcher("/create_user.jsp").forward(req, resp);
+			else {
+				this.getSystemUser().setFarmBase(user.getFarmBase());
+				this.getSystemUser().setCreatedBy(user.getUsername());
+				this.getSystemUser().setPassword(user.getUsername());
+				
+				long id = dao.insertSystemUser(this.getSystemUser(), session);
+				//insert new limit if limit doesn't exist
+				this.setSystemUser(new SystemUser());
+				if (id==0)
+					req.getRequestDispatcher("/error.jsp").forward(req, resp);
+					else {
+						
+						req.setAttribute("MESSAGE", "New user successfully added.");
+						retCode=dao.searchSystemUsers(user.getFarmBase(), session);
+						if (retCode!=1)
+							req.getRequestDispatcher("/error.jsp").forward(req, resp);
+						else {
+							req.getRequestDispatcher("/new_user.jsp").forward(req, resp);
+						}
+						req.getRequestDispatcher("/new_user.jsp").forward(req, resp);
+					}
+				}
+			
+		}
 		else if ("CallLog".equals(action)) {
 			String type=req.getParameter("type");
 			String source=req.getParameter("source");
@@ -178,7 +258,7 @@ public class DispatchServlet extends HttpServlet {
 				req.getRequestDispatcher("/call_log.jsp").forward(req, resp);
 		}
 		else
-			req.getRequestDispatcher("/newticket.jsp").forward(req, resp);
+			req.getRequestDispatcher("/main.jsp").forward(req, resp);
 		
 	}
 
@@ -479,6 +559,14 @@ public class DispatchServlet extends HttpServlet {
 
 	public static void setLimit(String limit) {
 		DispatchServlet.limit = limit;
+	}
+
+	public static SystemUser getSystemUser() {
+		return systemUser;
+	}
+
+	public static void setSystemUser(SystemUser systemUser) {
+		DispatchServlet.systemUser = systemUser;
 	}
 
 }

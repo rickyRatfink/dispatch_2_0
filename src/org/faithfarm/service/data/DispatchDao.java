@@ -160,6 +160,64 @@ public class DispatchDao {
     	
     	return retCode;
     }
+    public boolean deleteSystemUser(int userId, HttpSession session) {
+     	
+    	boolean retCode=true;
+    	
+    	try {
+ 
+		    Connection Conn=this.getConnection();
+			
+		    // Do something with the Connection
+			Statement Stmt = Conn.createStatement();
+			String query="DELETE FROM SYSTEM_USER WHERE USER_ID="+userId;
+			retCode=Stmt.execute(query);
+			Stmt.close();
+			Conn.close();
+    	} catch (SQLException E) { 
+		session.setAttribute("SYSTEM_ERROR",E.getMessage());
+		return false;
+	} catch (ClassNotFoundException e) { retCode=false;
+		session.setAttribute("SYSTEM_ERROR",e.getMessage());
+		return false;
+	}
+    	return true;
+    }
+    public int searchSystemUsers(String farm, HttpSession session ) {
+    	int retCode=1;
+    	ArrayList results = new ArrayList();
+		
+    	try {
+ 
+		    Connection Conn=this.getConnection();
+			
+		    // Do something with the Connection
+			Statement Stmt = Conn.createStatement();
+			StringBuffer s = new StringBuffer("SELECT USER_ID, USERNAME, USER_ROLE, LOGIN_COUNT, FARM_BASE FROM FFARM_DEV.SYSTEM_USER ");
+			s.append("WHERE FARM_BASE='"+farm+"'  ");
+			ResultSet RS = Stmt.executeQuery(s.toString());
+			while (RS.next()) {
+				SystemUser d = new SystemUser();				
+				d.setUserId(RS.getInt(1));
+				d.setUsername(RS.getString(2));
+				d.setUserRole(RS.getString(3));
+				d.setLoginCount(RS.getInt(4));
+				d.setFarmBase(RS.getString(5));
+				results.add(d);
+			}
+			session.setAttribute("RESULTS_"+session.getId(), results);
+			RS.close();
+			Stmt.close();
+			Conn.close();
+		} catch (SQLException E) { retCode=0;
+			session.setAttribute("SYSTEM_ERROR",E.getMessage());
+		} catch (ClassNotFoundException e) { retCode=0;
+			session.setAttribute("SYSTEM_ERROR",e.getMessage());
+			e.printStackTrace();
+		}
+    	
+    	return retCode;
+    }
 	public boolean secureLogin(String username, String password,
 			HttpSession session) {
 
@@ -481,7 +539,7 @@ public int updatePassword (Integer id, String password, String question, String 
 	}
 	
 	
-	public Long insertSystemUser(SystemUser d, String user, HttpSession session) {
+	public Long insertSystemUser(SystemUser d, HttpSession session) {
 
 		Long key = new Long("0");
 
@@ -497,7 +555,7 @@ public int updatePassword (Integer id, String password, String question, String 
 			query.append("'" + d.getUsername() + "',");
 			query.append("'" + d.getPassword() + "',");
 			query.append("'" + valid8r.getEpoch() + "',");
-			query.append("'" + user + "',");
+			query.append("'" + d.getCreatedBy() + "',");
 			query.append("'" + d.getUserRole() + "',");
 			query.append("'" + d.getFarmBase() + "');");
 			

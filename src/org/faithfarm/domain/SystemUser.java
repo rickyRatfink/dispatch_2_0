@@ -12,8 +12,16 @@ public class SystemUser implements Serializable {
 	private String userRole;
 	private String farmBase;
 	private Integer loginCount;
+	private String createdBy;
 	
 	
+	
+	public String getCreatedBy() {
+		return createdBy;
+	}
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
 	public Integer getUserId() {
 		return userId;
 	}

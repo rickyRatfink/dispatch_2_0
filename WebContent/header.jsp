@@ -39,11 +39,11 @@
 					if (user.getUserRole().equals("ADMIN")) {
 					%>
                     <ul>
-		            	<li><a href="index.html">Home</a></li>
+		            	<li><a href="main.jsp">Home</a></li>
 		                <li><a href="<%=request.getContextPath()%>/ticket?action=New">New Ticket</a></li>
 						<li><a href="<%=request.getContextPath()%>/ticket?action=Search">View/Edit Ticket</a></li>
 		                <li><a href="<%=request.getContextPath()%>/ticket?action=Level">Ticket Levels</a></li>
-                        <li><a href="navigation.html">User Accounts</a></li>
+                        <li><a href="<%=request.getContextPath()%>/ticket?action=Users">User Accounts</a></li>
 						<li><a href="<%=request.getContextPath()%>/login?action=logout">Logout</a></li>
 					</ul> 
                     <% 
@@ -51,7 +51,7 @@
 					if (user.getUserRole().equals("AGENT")) {
 					%>
                     <ul>
-		            	<li><a href="index.html">Home</a></li>
+		            	<li><a href="main.jsp">Home</a></li>
 		                <li><a href="<%=request.getContextPath()%>/ticket?action=New">New Ticket</a></li>
 						<li><a href="<%=request.getContextPath()%>/ticket?action=Search">View/Edit Ticket</a></li>
 		                <li><a href="call_log.jsp">Call Log</a></li>

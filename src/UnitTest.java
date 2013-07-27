@@ -30,9 +30,8 @@ public class UnitTest {
 		user.setPassword("a999919");
 		user.setUserRole("ADMIN");
 		user.setFarmBase("BOYNTON BEACH");
-		Long retCode = dao.insertSystemUser(user, "admin", null);
+		Long retCode = dao.insertSystemUser(user,  null);
 		
-		System.out.println (">"+retCode);
 		
 	}
 

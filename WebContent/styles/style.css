@@ -98,8 +98,8 @@ h5 {
 }
 .imageButtonSave{
     background: url('../images/btn_save.png');
- 	width : 98px;
-	height :19px;
+ 	width : 115px;
+	height :18px;
 	border : none;
 	color : transparent;
 	font-size : 0em; 
@@ -108,8 +108,8 @@ h5 {
 .imageButtonSaveOnly{
     background: url('../images/btn_save_only.png');
 	background-repeat:no-repeat;
- 	width : 98px;
-	height :19px;
+ 	width : 115px;
+	height :18px;
 	border : none;
 	color : transparent;
 	font-size : 0em; 
@@ -117,8 +117,8 @@ h5 {
 }
 .imageButtonPrint{
     background: url('../images/btn_print.png');
- 	width : 98px;
-	height :19px;
+ 	width : 115px;
+	height :18px;
 	border : none;
 	color : transparent;
 	font-size : 0em; 

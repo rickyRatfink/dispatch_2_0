@@ -11,6 +11,33 @@
 %>
 <jsp:include page="header.jsp" flush="true"/>
 
+<style type="text/css">
+#input {}
+.textbox1 {
+	border:1px solid #456879;
+	border-radius:3px;
+	height: 13px;
+	background-color:#e4e4e4;
+	font: 10px Arial;
+	color: #444446;
+}
+.tcalActive {
+	border:1px solid #456879;
+	border-radius:3px;
+	height: 13px;
+	background-color:#e4e4e4;
+	font: 10px Arial;
+	color: #444446;
+}
+.tcal {
+	border:1px solid #456879;
+	border-radius:3px;
+	height: 13px;
+	background-color:#e4e4e4;
+	font: 10px Arial;
+	color: #444446;
+}
+</style>
 
 <form method="POST" action="<%=request.getContextPath()%>/ticket"> 
 			<tr>
@@ -34,7 +61,7 @@
                             	<td >
                                 	<input 
                                       name="level"
-                                      size="3" maxlength="3" <% if (f2Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox"<%}%>
+                                      size="3" maxlength="3" <% if (f2Err.length()>0){%> class="textboxErr"<% } else { %> class="textbox1"<%}%>
                                       value="<%=DispatchServlet.getLimit()%>"
                                   />
                                 </td> 
@@ -49,7 +76,8 @@
                                 
                             </tr>
                             <tr>
-                             <td colspan="3" align="right"></br><input type="submit" name="action" value="SaveLevel" class="imageButtonSaveOnly" title="Save" /></td>
+                             <td></td>
+                             <td colspan="3" align="left"></br><input type="submit" name="action" value="SaveLevel" class="imageButtonSaveOnly" title="Save" /></td>
                              <td></td>
                             </tr>
                   		</table>
